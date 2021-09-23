@@ -18,16 +18,23 @@ public class Stack {
         return false;
     }
     //Push function to insert an element into the stack
-    public void push (String s) {
-        Node oldTop = newTop;
-        newTop = new Node();
-        newTop.name = s;
-        newTop.next = oldTop;
+    public void push (char c) {
+        Node oldTop = top;
+        top = new Node();
+        top.item = c;
+        top.next = oldTop;
     }
-    //Pop function to delete an element in the stack
-    public String pop() {
-         
-
+    //Pop function to remove and return an element in the stack
+    public char pop() {
+        char returnVal = 0;
+        if (!isEmpty()) {
+           returnVal = top.item;
+           top = top.next; 
+        }
+        else {
+            System.out.println("Stack Underflow");
+        }
+        return returnVal;
     }
 
 
