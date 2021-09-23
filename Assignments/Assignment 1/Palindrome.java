@@ -8,6 +8,9 @@ public class Palindrome {
         Stack myStack = new Stack();
         Queue myQueue = new Queue();
 
+        String normal = "";
+        String reverse = "";
+
         int numItems = 666;
         String[] magicItems = new String[numItems];
         int i = 0;
@@ -30,7 +33,17 @@ public class Palindrome {
             }
         }
 
-    
+        while (!myStack.isEmpty()) {
+            for (int m = 0; m < numItems; m++) {
+                for (int n = 0; n < magicItems[m].length(); n++) {
+                    reverse += myStack.pop();
+                    normal += myQueue.dequeue();
+                }
+                if (reverse.equals(normal)) {
+                    System.out.println(normal + " is a palindrome.");
+                }
+            }
+        }
     }
     
 }
