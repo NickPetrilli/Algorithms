@@ -15,7 +15,7 @@ public class Palindrome {
         String[] magicItems = new String[numItems];
         int i = 0;
 
-        File myFile = new File("C:\\Users\\njpet\\Documents\\GitHub\\cmpt435petrilli\\magicitems.txt");
+        File myFile = new File("magicitems.txt");
 
         try {
             Scanner fileScan = new Scanner(myFile);
