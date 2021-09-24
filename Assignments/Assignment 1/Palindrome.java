@@ -15,35 +15,44 @@ public class Palindrome {
         String[] magicItems = new String[numItems];
         int i = 0;
 
-        File myFile = new File("magicitems.txt");
+        File myFile = new File("C:\\Users\\njpet\\Documents\\GitHub\\cmpt435petrilli\\magicitems.txt");
 
-        Scanner input = new Scanner(myFile);
+        try {
+            Scanner fileScan = new Scanner(myFile);
         //Populates the array with the lines from text file
-        while (input.hasNext()) {
-            magicItems[i] = input.nextLine().toLowerCase().trim();
+        while (fileScan.hasNext()) {
+            magicItems[i] = fileScan.nextLine().toLowerCase().replace(" ", "");
             i++;
         }
-        input.close();
-        //For every element (every line)
+        fileScan.close();            
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        //For loop for every element (every line)
         for (int j = 0; j < numItems; j++) {
-            //For every character of each line
+            //For loop to push and enqueue every character of each line
             for (int k = 0; k < magicItems[j].length(); k++) {
                 myStack.push(magicItems[j].charAt(k));
                 myQueue.enqueue(magicItems[j].charAt(k));
             }
+            //Pop and dequeue each character until the stack (and queue) is empty
+            while (!myStack.isEmpty()) {
+                reverse += myStack.pop();
+                normal += myQueue.dequeue();
+            }
+            //Check to see if the element is equal to itself reversed
+            if (reverse.equals(normal)) {
+                System.out.println(normal + " is a palindrome.");
+            }
+            //reset the strings to empty for the next element
+            normal = "";
+            reverse = "";
+            
         }
 
-        while (!myStack.isEmpty()) {
-            for (int m = 0; m < numItems; m++) {
-                for (int n = 0; n < magicItems[m].length(); n++) {
-                    reverse += myStack.pop();
-                    normal += myQueue.dequeue();
-                }
-                if (reverse.equals(normal)) {
-                    System.out.println(normal + " is a palindrome.");
-                }
-            }
-        }
+        
     }
     
 }
