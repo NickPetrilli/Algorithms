@@ -23,7 +23,7 @@ public class Sort {
             e.printStackTrace();
         }
 
-        selectionSort(magicItems);
+        insertionSort(magicItems);
     }
     public static void selectionSort(String[] arr) {
         int n = arr.length;
@@ -43,5 +43,24 @@ public class Sort {
         System.out.println("The number of comparisons for selection sort is " + counter);        
     }
 
+    public static void insertionSort(String[] arr) {
+        int n = arr.length;
+        String key = "";
+        int i;
+        int counter = 0;
+        for(int j = 0; j < n - 2; j++) {
+            key = arr[j];
+            i = j - 1;
+            while (i >= 0 && arr[i].compareTo(key) > 0) {
+                counter++;
+                arr[i + 1] = arr[i];
+                i = i - 1;
+            }
+            arr[i + 1] = key;
+        }
+
+            System.out.println("The number of comparisons for insertion sort is " + counter);
+        
+    }
     
 }
