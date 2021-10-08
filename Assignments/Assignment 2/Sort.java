@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Sort {
+    static int mergeCounter = 0;
+    static int quickCounter = 0;
 
     public static void main(String[] args) {
         final int numItems = 666;
@@ -23,8 +25,25 @@ public class Sort {
             e.printStackTrace();
         }
 
+        selectionSort(magicItems);
+
+        shuffle(magicItems);
+
+        insertionSort(magicItems);
+
+        shuffle(magicItems);
+
         mergeSort(magicItems);
 
+        System.out.println("The number of comparisons for merge sort is " + mergeCounter);
+
+        shuffle(magicItems);
+        
+        quickSort(magicItems, 0, magicItems.length - 2);
+
+        System.out.println("The number of comparisons for quick sort is " + quickCounter);
+
+   
     }
     public static void selectionSort(String[] arr) {
         int n = arr.length;
@@ -116,6 +135,7 @@ public class Sort {
             //Outside of the if statement, either way an element is being added to the result array
             // so k has to be incremented to move to the next index
             k++;
+            mergeCounter++;
         }
         //Adds remaining elements of the left array if the right array was finished first
         while (i < leftSize) {
@@ -129,5 +149,56 @@ public class Sort {
             j++;
             k++;
         }       
-    }  
+    }
+    public static void quickSort(String[] arr, int low, int high) {
+        int mid = (low + high) / 2;
+        //Start i at the first element and j at the last element in order to compare to pivot 
+        int i = low;
+        int j = high;
+        String pivot = arr[mid];
+
+        while (i <= j) {
+            //Increment i when element is less than the middle pivot value
+            while (arr[i].compareTo(pivot) < 0) {
+                i++;
+            }
+            //Decrement j when element is greater than pivot value 
+            while (arr[j].compareTo(pivot) > 0) {
+                j--;
+            }
+            quickCounter++; 
+            //If the left side elements aren't lower than the pivot, and the right side elements aren't
+            //greater than the pivot, the two elements are swapped
+            if (i <= j) {
+                String temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+                i++;
+                j--;
+               
+            }
+        }
+        //Recursive call for the left side of the array before the pivot value 
+        if (low < j) {
+            quickSort(arr, low, j);
+        }
+        //Recursive call for right side of array after pivot value
+        if (high > i) {
+            quickSort(arr, i, high);
+        }
+        
+    }
+    //Knuth shuffle
+    public static void shuffle(String[] arr) {
+        Random rand = new Random();
+        int index;
+        String str;
+        for (int i = arr.length - 1; i > 0; i--) {
+            index = rand.nextInt(i + 1);
+            str = arr[index];
+            arr[index] = arr[i];
+            arr[i] = str;
+        }
+    }
+  
 }
