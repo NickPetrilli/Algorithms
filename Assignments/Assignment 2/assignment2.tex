@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\author{Nicholas Petrilli }
+
+
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 435 - Fall 2021 - Dr. Labouseur} \\[10pt] % Header stuff.
+   \textsc{Assignment Two}
+}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Results}
+\begin{center}
+\begin{tabular}{||c c c||} 
+ \hline
+  & Number of Comparisons & Asymptotic Running Time  \\ [0.5ex] 
+ \hline\hline
+ Selection Sort & 220780 & $O(n^2)$ \\ 
+ \hline
+ Insertion Sort & 114121 & $O(n^2)$\\
+ \hline
+ Merge Sort & 5413 & O(n*log(n)) \\
+ \hline
+ Quick Sort & 1836 & O(n*log(n)) \\ [1ex]
+ \hline
+\end{tabular}
+\end{center}
+
+The asymptotic running times for both selection sort and insertion sort is $O(n^2)$. Both of these functions iterate through nested for loops which cause the Big Oh upper bound to be $n^2$. On the other hand, merge sort and quick sort have asymptotic running times of O(n*log(n)). Instead of using for loops, these algorithms use recursion and break up the sorting into two steps: divide and conquer. The running time for dividing the array is log(n), and the running time for conquering the array until its sorted is n which makes up the n*log(n). Also, the shuffle method is taking in a completely sorted array and it is randomly moving the elements around, so the number of comparisons is slightly less than expected. 
+
+
+\end{document}
