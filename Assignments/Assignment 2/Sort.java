@@ -39,7 +39,7 @@ public class Sort {
 
         shuffle(magicItems);
         
-        quickSort(magicItems, 0, magicItems.length - 2);
+        quickSort(magicItems, 0, magicItems.length - 1);
 
         System.out.println("The number of comparisons for quick sort is " + quickCounter);
 
@@ -161,10 +161,12 @@ public class Sort {
             //Increment i when element is less than the middle pivot value
             while (arr[i].compareTo(pivot) < 0) {
                 i++;
+                quickCounter++; 
             }
             //Decrement j when element is greater than pivot value 
             while (arr[j].compareTo(pivot) > 0) {
                 j--;
+                quickCounter++; 
             }
             quickCounter++; 
             //If the left side elements aren't lower than the pivot, and the right side elements aren't
