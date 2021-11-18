@@ -15,25 +15,35 @@ public class BST {
     }
 
     public void insert(BST tree, TreeNode newNode) {
+        String path = "";
         TreeNode trailing = null;
         TreeNode current = tree.root;
         while (current != null) {
             trailing = current;
-            if (newNode.data.compareToIgnoreCase(current.data) < 0)
+            if (newNode.data.compareToIgnoreCase(current.data) < 0) {
                 current = current.left;
-            else //must be >=
+                path += "L, ";
+            }
+                
+            else { //must be >=
                 current = current.right;
+                path += "R, ";
+            } 
+                
         }
         newNode.parent = trailing;
         if (trailing == null)
             tree.root = newNode;
         else if (newNode.data.compareToIgnoreCase(trailing.data) < 0) {
             trailing.left = newNode;
+            path += "L";
         }
             
         else {
             trailing.right = newNode;
-        }  
+            path += "R";
+        }
+        System.out.println(path);  
     }
     public void inOrderTraversal(TreeNode node) {
         //base case to know there are no more nodes left
