@@ -1,5 +1,5 @@
 public class BST {
-     static TreeNode root;
+     TreeNode root;
 
     static int totalComparisons = 0;
     static int comparisons = 0;
@@ -8,7 +8,8 @@ public class BST {
     public BST() {
         root = new TreeNode();
     }
-    public static void search(TreeNode treeRoot, String target) {
+    //Doesn't work properly, returns an average of around 14 per search when should be 9-10
+    public void search(TreeNode treeRoot, String target) {
         comparisons = 0;
         TreeNode current = treeRoot;
         TreeNode parent = null;

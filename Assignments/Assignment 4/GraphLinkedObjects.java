@@ -2,17 +2,17 @@ import java.util.*;
 
 public class GraphLinkedObjects {
     
-    List<List<Integer>> linkedObjectsGraph;
-    boolean[] processed;
+    ArrayList<Vertex> graphLinkedObjects;
+    
 
     public GraphLinkedObjects(int numVerticies) {
-        linkedObjectsGraph = new ArrayList<>();
-        processed = new boolean[numVerticies];
+        graphLinkedObjects = new ArrayList<>(numVerticies);
+        
     }
     //Add edge in both directions for undirected graph
     public void addEdge(int vertex1, int vertex2) {
-        linkedObjectsGraph.get(vertex1).add(vertex2);
-        linkedObjectsGraph.get(vertex2).add(vertex1);
+        graphLinkedObjects.get(vertex1).neighbors.add(new Vertex(vertex2));
+        graphLinkedObjects.get(vertex2).neighbors.add(new Vertex(vertex1));
     }
     public void depthFirstTraversal(Vertex v) {
         if (!(v.processed)) {
@@ -42,6 +42,15 @@ public class GraphLinkedObjects {
             }//end for
             
         }//end while
-
     }
+    /*
+    public void printGraph() {
+        for (Vertex v: graphLinkedObjects) {
+            System.out.print("Vertex " + v.id);
+            for (int x = 0; x < v.neighbors.size(); x++) {
+                System.out.println(" has neighbors " + v.neighbors.get(x));
+            }
+        }
+    }
+    */
 }

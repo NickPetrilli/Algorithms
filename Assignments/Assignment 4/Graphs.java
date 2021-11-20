@@ -8,6 +8,7 @@ public class Graphs {
 
     static GraphMatrix graphMatrix;
     static GraphLinkedObjects graphLinkedObjects;
+    static GraphAdjacencyList graphAdjacencyList;
 
 
     public static void main(String[] args) {
@@ -104,13 +105,43 @@ public class Graphs {
         ArrayList<Integer> graph5Edges = new ArrayList<Integer>();
 
 
+        /*
+        GraphMatrix gm = new GraphMatrix(5);
+        gm.addEdge(1, 2);
+        gm.addEdge(1, 4);
+        gm.addEdge(3, 4);
+        gm.printGraphMatrix();
+        */
 
-        
+        /*
+        GraphLinkedObjects glo = new GraphLinkedObjects(8);
+        glo.addEdge(1, 5);
+        glo.addEdge(2, 4);
+        glo.addEdge(6, 7);
+        for (int g = 0; g < 8; g++) {
+            Vertex v = new Vertex(g);
+            glo.breadthFirstTraversal(v);
+            glo.depthFirstTraversal(v);
+        }
+        */
+        /*
+        GraphAdjacencyList adj = new GraphAdjacencyList(6);
+        adj.addEdge(1, 2);
+        adj.addEdge(2, 4);
+        adj.addEdge(4, 5);
+        adj.printGraph();
+        */
+
+
         for (int x = 0; x < NUM_LINES_IN_GRAPHS; x++) {
             //System.out.println(graphInstructions[x]);
             if (graphInstructions[x].contains("new")) {
                 graphNum++;
+
                 System.out.println("Creating Graph Number: " + graphNum);
+                //need to wait to actually create graph because we need the number of verticies
+                
+                
             }//if
             else if (graphInstructions[x].contains("add vertex")) {
                 //removes all non numeric text in line
@@ -121,6 +152,7 @@ public class Graphs {
                 //determine which number graph list to add the vertex to
                 if(graphNum == 1) {
                     graph1Verticies.add(vertex);
+                    
                 }
                 else if(graphNum == 2) {
                     graph2Verticies.add(vertex);
@@ -138,7 +170,6 @@ public class Graphs {
             else if (graphInstructions[x].contains("add edge")) {
                 int edge1 = 0;
                 int edge2 = 0;
-                int counter = 0;
                 
                 
                 //Split the array at the spaces, and check if the new strings are numbers
@@ -154,7 +185,7 @@ public class Graphs {
                 edge1 = intList.get(0);
                 edge2 = intList.get(1);
 
-                System.out.println(edge1 + " and " + edge2);
+                //System.out.println(edge1 + " and " + edge2);
 
                 if (graphNum == 1) {
                     graph1Edges.add(edge1);
@@ -177,105 +208,107 @@ public class Graphs {
                     graph5Edges.add(edge2);
                 }//else if
 
-                else {
-        
-                    if (graphNum == 1 && !(graph1Edges.isEmpty())) {
-                        //create the graphs 
-                        graphMatrix = new GraphMatrix(graph1Verticies.size() + 1);
-                        graphLinkedObjects = new GraphLinkedObjects(graph1Verticies.size() + 1);
 
+                //need to check that the list of edges for the graph isn't empty
+                if (graphNum == 1 && !(graph1Edges.isEmpty())) {
+                    //create the graphs 
+                    graphMatrix = new GraphMatrix(graph1Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph1Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph1Verticies.size() + 1);
 
-                        while (!(graph1Edges.isEmpty())) {
-                            //add the edges to the graphs
-                            System.out.println("adding edges " + graph1Edges.get(0) + " - " + graph1Edges.get(1));
-                            graphMatrix.addEdge(graph1Edges.get(0), graph1Edges.get(1));
-                            graphLinkedObjects.addEdge(graph1Edges.get(0), graph1Edges.get(1));
+                    while (!(graph1Edges.isEmpty())) {
+                        //add the edges to the graphs
+                        System.out.println("adding edges " + graph1Edges.get(0) + " - " + graph1Edges.get(1));
+                        graphMatrix.addEdge(graph1Edges.get(0), graph1Edges.get(1));
+                        //commented out because causing errors
+                        //graphLinkedObjects.addEdge(graph1Edges.get(0), graph1Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph1Edges.get(0), graph1Edges.get(1));
 
-                            //remove the two edges that were just added each time until all edges have been added 
-                            graph1Edges.remove(0);
-                            graph1Edges.remove(0);
-                        }//while
+                        //remove the two edges that were just added each time until all edges have been added 
+                        graph1Edges.remove(0);
+                        graph1Edges.remove(0);
+                    }//while
 
-                        System.out.println("Graph Matrix:");
-                        graphMatrix.printGraphMatrix();
-                        //graphLinkedObjects.depthFirstTraversal(v);
+                    System.out.println("Graph Matrix:");
+                    graphMatrix.printGraphMatrix();
+                    //graphLinkedObjects.depthFirstTraversal(v);
                         
-                        //depth first and breadth first traversals here
-                    }//if
-                    else if (graphNum == 2 && !(graph2Edges.isEmpty())) {
-                        graphMatrix = new GraphMatrix(graph2Verticies.size() + 1);
-                        graphLinkedObjects = new GraphLinkedObjects(graph2Verticies.size() + 1);
+                    //depth first and breadth first traversals here
+                }//if
+                else if (graphNum == 2 && !(graph2Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph2Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph2Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph2Verticies.size() + 1);
+
+                    while(!(graph2Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph2Edges.get(0), graph2Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph2Edges.get(0), graph2Edges.get(1));
+
+                        graph2Edges.remove(0);
+                        graph2Edges.remove(0);
+                    }//while
+
+                    System.out.println("Graph Matrix:");
+                    graphMatrix.printGraphMatrix();
+
+                }//else if
+
+                else if (graphNum == 3 && !(graph3Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph3Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph3Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph3Verticies.size() + 1);
+
+                    while(!(graph3Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph3Edges.get(0), graph3Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph3Edges.get(0), graph3Edges.get(1));
+
+                        graph3Edges.remove(0);
+                        graph3Edges.remove(0);
+                    }//while
+
+                    System.out.println("Graph Matrix:");
+                    graphMatrix.printGraphMatrix();
+
+                }//else if
+
+                else if (graphNum == 4 && !(graph4Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph4Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph4Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph4Verticies.size() + 1);
+
+                    while(!(graph4Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph4Edges.get(0), graph4Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph4Edges.get(0), graph4Edges.get(1));
+
+                        graph4Edges.remove(0);
+                        graph4Edges.remove(0);
+                    }//while
+
+                    System.out.println("Graph Matrix:");
+                    graphMatrix.printGraphMatrix();
+
+                }//else if
+
+                else if (graphNum == 5 && !(graph5Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph5Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph5Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph5Verticies.size() + 1);
+
+                    while(!(graph5Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph5Edges.get(0), graph5Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph5Edges.get(0), graph5Edges.get(1));
+
+                        graph5Edges.remove(0);
+                        graph5Edges.remove(0);
+                    }//while
+
+                    System.out.println("Graph Matrix:");
+                    graphMatrix.printGraphMatrix();
+
+                }//else if
 
 
-                        while(!(graph2Edges.isEmpty())) {
-                            graphMatrix.addEdge(graph2Edges.get(0), graph2Edges.get(1));
-                            graphLinkedObjects.addEdge(graph2Edges.get(0), graph2Edges.get(1));
-
-                            graph2Edges.remove(0);
-                            graph2Edges.remove(0);
-                        }//while
-
-                        System.out.println("Graph Matrix:");
-                        graphMatrix.printGraphMatrix();
-
-                    }//else if
-
-                    else if (graphNum == 3 && !(graph3Edges.isEmpty())) {
-                        graphMatrix = new GraphMatrix(graph3Verticies.size() + 1);
-                        graphLinkedObjects = new GraphLinkedObjects(graph3Verticies.size() + 1);
-
-
-                        while(!(graph3Edges.isEmpty())) {
-                            graphMatrix.addEdge(graph3Edges.get(0), graph3Edges.get(1));
-                            graphLinkedObjects.addEdge(graph3Edges.get(0), graph3Edges.get(1));
-
-                            graph3Edges.remove(0);
-                            graph3Edges.remove(0);
-                        }//while
-
-                        System.out.println("Graph Matrix:");
-                        graphMatrix.printGraphMatrix();
-
-                    }//else if
-
-                    else if (graphNum == 4 && !(graph4Edges.isEmpty())) {
-                        graphMatrix = new GraphMatrix(graph4Verticies.size() + 1);
-                        graphLinkedObjects = new GraphLinkedObjects(graph4Verticies.size() + 1);
-
-
-                        while(!(graph4Edges.isEmpty())) {
-                            graphMatrix.addEdge(graph4Edges.get(0), graph4Edges.get(1));
-                            graphLinkedObjects.addEdge(graph4Edges.get(0), graph4Edges.get(1));
-
-                            graph4Edges.remove(0);
-                            graph4Edges.remove(0);
-                        }//while
-
-                        System.out.println("Graph Matrix:");
-                        graphMatrix.printGraphMatrix();
-
-                    }//else if
-
-                    else if (graphNum == 5 && !(graph5Edges.isEmpty())) {
-                        graphMatrix = new GraphMatrix(graph5Verticies.size() + 1);
-                        graphLinkedObjects = new GraphLinkedObjects(graph5Verticies.size() + 1);
-
-
-                        while(!(graph5Edges.isEmpty())) {
-                            graphMatrix.addEdge(graph5Edges.get(0), graph5Edges.get(1));
-                            graphLinkedObjects.addEdge(graph5Edges.get(0), graph5Edges.get(1));
-
-                            graph5Edges.remove(0);
-                            graph5Edges.remove(0);
-                        }//while
-
-                        System.out.println("Graph Matrix:");
-                        graphMatrix.printGraphMatrix();
-
-                    }//else if
-
-
-                }
+                
                     
                     
                    
