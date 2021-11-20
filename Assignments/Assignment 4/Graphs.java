@@ -147,7 +147,6 @@ public class Graphs {
                 //removes all non numeric text in line
                 String num = graphInstructions[x].replaceAll("[^\\d.]", "");
                 int vertex = Integer.parseInt(num);
-                Vertex v = new Vertex(vertex);
 
                 //determine which number graph list to add the vertex to
                 if(graphNum == 1) {
@@ -231,9 +230,22 @@ public class Graphs {
 
                     System.out.println("Graph Matrix:");
                     graphMatrix.printGraphMatrix();
-                    //graphLinkedObjects.depthFirstTraversal(v);
-                        
-                    //depth first and breadth first traversals here
+                    //Needed to do separately in order to print out correctly
+                    //Only included for the first graph because the output would be extremely long
+                    
+                    for (int y = 0; y < graph1Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph1Verticies.get(y));
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    System.out.println();
+                    graphLinkedObjects.reset();
+                    for (int z = 0; z < graph1Verticies.size(); z++) {
+                        Vertex v = new Vertex(graph1Verticies.get(z));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                    }
+                    System.out.println();
+                    
+
                 }//if
                 else if (graphNum == 2 && !(graph2Edges.isEmpty())) {
                     graphMatrix = new GraphMatrix(graph2Verticies.size() + 1);
@@ -243,14 +255,21 @@ public class Graphs {
                     while(!(graph2Edges.isEmpty())) {
                         graphMatrix.addEdge(graph2Edges.get(0), graph2Edges.get(1));
                         //graphLinkedObjects.addEdge(graph2Edges.get(0), graph2Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph2Edges.get(0), graph2Edges.get(1));
 
                         graph2Edges.remove(0);
                         graph2Edges.remove(0);
                     }//while
 
-                    System.out.println("Graph Matrix:");
-                    graphMatrix.printGraphMatrix();
-
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph2Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph2Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
                 }//else if
 
                 else if (graphNum == 3 && !(graph3Edges.isEmpty())) {
@@ -261,13 +280,21 @@ public class Graphs {
                     while(!(graph3Edges.isEmpty())) {
                         graphMatrix.addEdge(graph3Edges.get(0), graph3Edges.get(1));
                         //graphLinkedObjects.addEdge(graph3Edges.get(0), graph3Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph3Edges.get(0), graph3Edges.get(1));
 
                         graph3Edges.remove(0);
                         graph3Edges.remove(0);
                     }//while
 
-                    System.out.println("Graph Matrix:");
-                    graphMatrix.printGraphMatrix();
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph3Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph3Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
 
                 }//else if
 
@@ -279,14 +306,21 @@ public class Graphs {
                     while(!(graph4Edges.isEmpty())) {
                         graphMatrix.addEdge(graph4Edges.get(0), graph4Edges.get(1));
                         //graphLinkedObjects.addEdge(graph4Edges.get(0), graph4Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph4Edges.get(0), graph4Edges.get(1));
 
                         graph4Edges.remove(0);
                         graph4Edges.remove(0);
                     }//while
 
-                    System.out.println("Graph Matrix:");
-                    graphMatrix.printGraphMatrix();
-
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph4Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph4Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
                 }//else if
 
                 else if (graphNum == 5 && !(graph5Edges.isEmpty())) {
@@ -297,30 +331,32 @@ public class Graphs {
                     while(!(graph5Edges.isEmpty())) {
                         graphMatrix.addEdge(graph5Edges.get(0), graph5Edges.get(1));
                         //graphLinkedObjects.addEdge(graph5Edges.get(0), graph5Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph5Edges.get(0), graph5Edges.get(1));
 
                         graph5Edges.remove(0);
                         graph5Edges.remove(0);
                     }//while
 
-                    System.out.println("Graph Matrix:");
-                    graphMatrix.printGraphMatrix();
-
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph5Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph5Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
                 }//else if
 
 
                 
-                    
-                    
-                   
-     
-  
-                
             }   
         }//for
-        
+
+              
 
 
-        }
+    }
     public static boolean isNumber(String str) {
         if (str == null || str.length() == 0) {
             return false;

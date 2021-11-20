@@ -16,7 +16,7 @@ public class GraphMatrix {
     }
     public void printGraphMatrix() {
         for (int i = 0; i < numVerticies; i++) {
-            System.out.print(i + "| ");
+            System.out.print(i + " | ");
             for (int j = 0; j < numVerticies; j++) {
                 System.out.print(graphMatrix[i][j] + " ");
             }

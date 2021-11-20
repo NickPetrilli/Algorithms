@@ -16,7 +16,7 @@ public class GraphLinkedObjects {
     }
     public void depthFirstTraversal(Vertex v) {
         if (!(v.processed)) {
-            System.out.println(v.id);
+            System.out.print(v.id + " ");
             v.processed = true;
         }
         for (Vertex n: v.neighbors) {
@@ -32,7 +32,7 @@ public class GraphLinkedObjects {
         Vertex currentVertex = new Vertex();
         while (!(queue.isEmpty())) {
             currentVertex = queue.dequeue();
-            System.out.println(currentVertex.id);
+            System.out.print(currentVertex.id + " ");
 
             for (Vertex n: currentVertex.neighbors) {
                 if (!(n.processed)) {
@@ -42,6 +42,12 @@ public class GraphLinkedObjects {
             }//end for
             
         }//end while
+        
+    }
+    public void reset() {
+        for (int i = 0; i < graphLinkedObjects.size(); i++) {
+            graphLinkedObjects.get(i).processed = false;
+        }
     }
     /*
     public void printGraph() {
