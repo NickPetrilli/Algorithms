@@ -1,0 +1,688 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+
+\title{Algorithms Assignment 1}
+\author{Nicholas Petrilli }
+
+
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 435 - Fall 2021 - Dr. Labouseur} \\[10pt] % Header stuff.
+   \textsc{Assignment Four}
+}
+
+
+\date{\today}
+
+\begin{document}
+
+
+\lstset{
+  numbers=left,
+  firstnumber=1,
+  numberfirstline=true
+}
+\maketitle
+
+\section{Binary Search Tree}
+
+\begin{lstlisting} [language = Java, caption = BST Class]
+public class BST {
+     TreeNode root;
+
+    static int totalComparisons = 0;
+    static int comparisons = 0;
+
+
+    public BST() {
+        root = new TreeNode();
+    }
+    //Doesn't work properly, returns an average of around 14 per search when should be 9-10
+    public void search(TreeNode treeRoot, String target) {
+        comparisons = 0;
+        TreeNode current = treeRoot;
+        TreeNode parent = null;
+        String path = "";
+        while (current != null && current.data.compareTo(target) != 0) {
+            parent = current;
+            if (target.compareTo(current.data) < 0 ) {
+                current = current.left;
+                path += "L, ";
+                comparisons++;
+            }
+            else {
+                current = current.right;
+                path += "R, ";
+                comparisons++;
+            }
+        }
+        
+        if (parent == null) {
+            System.out.println("The node with target string " + target + " is the root node");
+        }
+        else if (target.compareTo(parent.data) < 0) {
+            path += "L";
+            comparisons++;
+        }
+        else {
+            path += "R";
+            comparisons++;
+        }
+        System.out.println("The path for searching for " + target + " was " + path);
+        totalComparisons += comparisons;
+
+    }
+    
+    
+    //Insert a node into the tree
+    public void insert(BST tree, TreeNode newNode) {
+        String path = "";
+        TreeNode trailing = null;
+        TreeNode current = tree.root;
+        while (current != null) {
+            trailing = current;
+            if (newNode.data.compareToIgnoreCase(current.data) < 0) {
+                current = current.left;
+                path += "L, ";
+            }
+                
+            else { //must be >=
+                current = current.right;
+                path += "R, ";
+            } 
+                
+        }
+        newNode.parent = trailing;
+        if (trailing == null)
+            tree.root = newNode;
+        else if (newNode.data.compareToIgnoreCase(trailing.data) < 0) {
+            trailing.left = newNode;
+            path += "L";
+        }
+            
+        else {
+            trailing.right = newNode;
+            path += "R";
+        }
+        System.out.println("The path for inserting " + newNode.data + " was " + path);  
+    }
+    public void inOrderTraversal(TreeNode node) {
+        //base case to know there are no more nodes left
+        if (node == null)
+            return;
+        inOrderTraversal(node.left);
+        System.out.println(node.data);
+        inOrderTraversal(node.right);
+    }
+    public int getTotalComparisons() {
+        return totalComparisons;
+    }
+    public int getComparisons() {
+        return comparisons;
+    }
+}
+
+\end{lstlisting}
+\noindent This is my binary search tree class. Insert function properly works, but there is an issue with the search function. Due to this error in the search function, the average number of comparisons for searching was 14, higher than the expected log(n) which is 9-10.
+
+\section{Tree Node}
+
+\begin{lstlisting} [language = Java, caption = TreeNode Class]
+public class TreeNode {
+    String data;
+    TreeNode left;
+    TreeNode right;
+    TreeNode parent;
+
+    public TreeNode() {
+        data = "";
+        left = right = parent = null;
+    }
+    public TreeNode(String data) {
+        this.data = data;
+        left = right = parent = null;
+    }
+    
+}
+\end{lstlisting}
+
+\noindent This class is my TreeNode class, which is used to populate the binary search tree. The left, right and parent pointers are used in the BST class when searching and inserting. 
+
+\section{GraphMatrix}
+
+\begin{lstlisting} [language = Java, caption = GraphMatrix Class]
+public class GraphMatrix {
+    int graphMatrix[][];
+    int numVerticies;
+
+    //Construct matrix graph with number of verticies
+    public GraphMatrix(int numVerticies) {
+        this.numVerticies = numVerticies;
+        graphMatrix = new int[numVerticies][numVerticies];
+    }
+
+    public void addEdge(int vertex1, int vertex2) {
+        //Add edge for both directions for undirected graph
+        graphMatrix[vertex1][vertex2] = 1;
+
+        graphMatrix[vertex2][vertex1] = 1;
+    }
+    public void printGraphMatrix() {
+        for (int i = 0; i < numVerticies; i++) {
+            System.out.print(i + " | ");
+            for (int j = 0; j < numVerticies; j++) {
+                System.out.print(graphMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+    
+}
+\end{lstlisting}
+
+\noindent This is my GraphMatrix class, which is used to represent the matrix version of the undirected graphs. Add edge adds the edge in both directions in the matrix, represented by a 1 in the matrix. The function printGraphMatrix prints the properly formatted matrix with the number of verticies and the proper linked edges. 
+
+\section{Vertex}
+\begin{lstlisting} [language = Java, caption = Vertex Class]
+import java.util.*;
+
+public class Vertex {
+    int id;
+    boolean processed;
+    ArrayList<Vertex> neighbors;
+
+    public Vertex(int id) {
+        this.id = id;
+        processed = false;
+        neighbors = new ArrayList<>();
+    }
+    public Vertex() {
+        id = 0;
+        processed = false;
+        neighbors = new ArrayList<>();
+    }
+    
+}
+\end{lstlisting}
+\noindent This is my Vertex class, which is used for the GraphLinkedObjects which contains an array list of vertices. Each vertex has an id number, a boolean value to check if it had been processed, and an array list of verticies that indicate its neighbors (where edges connect). 
+
+\section{GraphLinkedObjects}
+
+\begin{lstlisting} [language = Java, caption = GraphLinkedObjects Class]
+import java.util.*;
+
+public class GraphLinkedObjects {
+    
+    ArrayList<Vertex> graphLinkedObjects;
+    
+
+    public GraphLinkedObjects(int numVerticies) {
+        graphLinkedObjects = new ArrayList<>(numVerticies);
+        
+    }
+    //Add edge in both directions for undirected graph
+    public void addEdge(int vertex1, int vertex2) {
+        graphLinkedObjects.get(vertex1).neighbors.add(new Vertex(vertex2));
+        graphLinkedObjects.get(vertex2).neighbors.add(new Vertex(vertex1));
+    }
+    public void depthFirstTraversal(Vertex v) {
+        if (!(v.processed)) {
+            System.out.print(v.id + " ");
+            v.processed = true;
+        }
+        for (Vertex n: v.neighbors) {
+            if (!(n.processed)) {
+                depthFirstTraversal(n);
+            }
+        }
+    }
+    public void breadthFirstTraversal(Vertex v) {
+        Queue2 queue = new Queue2();
+        queue.enqueue(v);
+        v.processed = true;
+        Vertex currentVertex = new Vertex();
+        while (!(queue.isEmpty())) {
+            currentVertex = queue.dequeue();
+            System.out.print(currentVertex.id + " ");
+
+            for (Vertex n: currentVertex.neighbors) {
+                if (!(n.processed)) {
+                    queue.enqueue(n);
+                    n.processed = true;
+                }//end if
+            }//end for
+            
+        }//end while
+        
+    }
+    public void reset() {
+        for (int i = 0; i < graphLinkedObjects.size(); i++) {
+            graphLinkedObjects.get(i).processed = false;
+        }
+    }
+    /*
+    public void printGraph() {
+        for (Vertex v: graphLinkedObjects) {
+            System.out.print("Vertex " + v.id);
+            for (int x = 0; x < v.neighbors.size(); x++) {
+                System.out.println(" has neighbors " + v.neighbors.get(x));
+            }
+        }
+    }
+    */
+}
+
+\end{lstlisting}
+\noindent This class is my GraphLinkedObjects. It includes breadth first traversal and depth first traversal, which both have asympotic running times of O(|V| + |E|). This is so because in both traversals, every vertex and every edge will be checked once when traversing through the graph. I struggled implementing this class, as the add edge function still causes an error. I tried to implement it the way the slides show, however I wasn't successful in getting it to work.
+
+\section{GraphAdjacencyList}
+
+\begin{lstlisting} [language = Java, caption = GraphLinkedObjects Class]
+import java.util.*;
+
+public class GraphAdjacencyList {
+    ArrayList<ArrayList<Integer>> graphAdjacencyList;
+
+    public GraphAdjacencyList(int numVerticies) {
+        graphAdjacencyList = new ArrayList<>(numVerticies);
+
+    }
+    public void addEdge(int vertex1, int vertex2) {
+        graphAdjacencyList.get(vertex1).add(vertex1);
+        graphAdjacencyList.get(vertex2).add(vertex2);
+    }
+    public void printGraph() {
+        for (List newList: graphAdjacencyList) {
+            for (Object m: newList) {
+                System.out.println(newList.get((int) m));
+
+            }
+        }
+    }
+    
+}
+
+\end{lstlisting}
+
+\noindent This is my GraphAdjacencyList class, which I also struggled implementing. Adding edges still results in an error as I am unsure if my representation using an array list of array lists was accurate. For these reasons, the code in main is commented out when calling this function in order to have the program compile without any errors. 
+
+\section{Main}
+
+\begin{lstlisting} [language = Java, caption = Graphs (Main) Class]
+import java.io.*;
+import java.util.*;
+
+public class Graphs {
+    final static int NUM_ITEMS = 666;
+    final static int NUM_ITEMS_2 = 42;
+    final static int NUM_LINES_IN_GRAPHS = 375;
+
+    static GraphMatrix graphMatrix;
+    static GraphLinkedObjects graphLinkedObjects;
+    static GraphAdjacencyList graphAdjacencyList;
+
+
+    public static void main(String[] args) {
+        BST bTree = new BST();
+        String[] magicItems = new String[NUM_ITEMS];
+        int i = 0;
+
+        File myFile = new File("magicitems.txt");
+
+        try {
+            Scanner fileScan = new Scanner(myFile);
+        //Populates the array with the lines from text file
+        while (fileScan.hasNext()) {
+            magicItems[i] = fileScan.nextLine().toLowerCase().replace(" ", "");
+            i++;
+        }
+        fileScan.close();            
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        //Creates nodes for each element in the array, and inserts them into the binary search tree
+        for (int j = 0; j < NUM_ITEMS; j++) {
+            TreeNode temp = new TreeNode(magicItems[j]);
+            bTree.insert(bTree, temp);
+        }
+
+        System.out.println("\n**In Order Traversal of Binary Search Tree**");
+
+        //Prints out in order traversal of binary search tree
+        bTree.inOrderTraversal(bTree.root);
+        
+        //Create new array for elements to search for in binary search tree and read in file
+        String[] magicItems2 = new String[NUM_ITEMS_2];
+        File myFile2 = new File("magicitems-find-in-bst.txt");
+        int k = 0;
+
+        try {
+            Scanner fileScan2 = new Scanner(myFile2);
+        //Populates the array with the lines from text file
+        while (fileScan2.hasNext()) {
+            magicItems2[k] = fileScan2.nextLine().toLowerCase();
+            k++;
+        }
+        fileScan2.close();            
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+        //Search for each of the 42 magic items in the binary search tree
+        
+        for (int m = 0; m < NUM_ITEMS_2; m++) {
+            System.out.println(bTree.root.data);
+            bTree.search(bTree.root, magicItems2[m]);
+            System.out.println("The number of comparisons was " + bTree.getComparisons());
+        }
+        double average = bTree.getTotalComparisons() / NUM_ITEMS_2;
+        System.out.println("The average number of comparisons for a search in a binary search tree is: " + average);
+        System.out.println(bTree.root.data);
+        
+        String[] graphInstructions = new String[NUM_LINES_IN_GRAPHS];
+        
+        int n = 0;
+
+        File myFile3 = new File("graphs1.txt");
+
+        try {
+            Scanner fileScan3 = new Scanner(myFile3);
+        //Populates the array with the lines from text file
+        while (fileScan3.hasNext()) {
+            graphInstructions[n] = fileScan3.nextLine().toLowerCase();
+            n++;
+        }
+        fileScan3.close();            
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
+
+        int graphNum = 0;
+
+        ArrayList<Integer> graph1Verticies = new ArrayList<Integer>();
+        ArrayList<Integer> graph2Verticies = new ArrayList<Integer>();
+        ArrayList<Integer> graph3Verticies = new ArrayList<Integer>();
+        ArrayList<Integer> graph4Verticies = new ArrayList<Integer>();
+        ArrayList<Integer> graph5Verticies = new ArrayList<Integer>();
+        ArrayList<Integer> graph1Edges = new ArrayList<Integer>();
+        ArrayList<Integer> graph2Edges = new ArrayList<Integer>();
+        ArrayList<Integer> graph3Edges = new ArrayList<Integer>();
+        ArrayList<Integer> graph4Edges = new ArrayList<Integer>();
+        ArrayList<Integer> graph5Edges = new ArrayList<Integer>();
+
+
+        /*
+        GraphMatrix gm = new GraphMatrix(5);
+        gm.addEdge(1, 2);
+        gm.addEdge(1, 4);
+        gm.addEdge(3, 4);
+        gm.printGraphMatrix();
+        */
+
+        /*
+        GraphLinkedObjects glo = new GraphLinkedObjects(8);
+        glo.addEdge(1, 5);
+        glo.addEdge(2, 4);
+        glo.addEdge(6, 7);
+        for (int g = 0; g < 8; g++) {
+            Vertex v = new Vertex(g);
+            glo.breadthFirstTraversal(v);
+            glo.depthFirstTraversal(v);
+        }
+        */
+        /*
+        GraphAdjacencyList adj = new GraphAdjacencyList(6);
+        adj.addEdge(1, 2);
+        adj.addEdge(2, 4);
+        adj.addEdge(4, 5);
+        adj.printGraph();
+        */
+
+
+        for (int x = 0; x < NUM_LINES_IN_GRAPHS; x++) {
+            //System.out.println(graphInstructions[x]);
+            if (graphInstructions[x].contains("new")) {
+                graphNum++;
+
+                System.out.println("Creating Graph Number: " + graphNum);
+                //need to wait to actually create graph because we need the number of verticies
+                
+                
+            }//if
+            else if (graphInstructions[x].contains("add vertex")) {
+                //removes all non numeric text in line
+                String num = graphInstructions[x].replaceAll("[^\\d.]", "");
+                int vertex = Integer.parseInt(num);
+
+                //determine which number graph list to add the vertex to
+                if(graphNum == 1) {
+                    graph1Verticies.add(vertex);
+                    
+                }
+                else if(graphNum == 2) {
+                    graph2Verticies.add(vertex);
+                }
+                else if(graphNum == 3) {
+                    graph3Verticies.add(vertex);
+                }
+                else if(graphNum == 4) {
+                    graph4Verticies.add(vertex);
+                }
+                else if(graphNum == 5) {
+                    graph5Verticies.add(vertex);
+                }
+            }
+            else if (graphInstructions[x].contains("add edge")) {
+                int edge1 = 0;
+                int edge2 = 0;
+                
+                
+                //Split the array at the spaces, and check if the new strings are numbers
+                //if they are numbers, they are the edge numbers we need to add to the graph
+                ArrayList<Integer> intList = new ArrayList<Integer>();
+                for (String splitString: graphInstructions[x].split(" ")) {
+                    if(isNumber(splitString)) {
+                        intList.add(Integer.parseInt(splitString));
+                    }//if
+            
+                }//for
+                //there are only two numbers in the line, so they will be the first two elements in the array list
+                edge1 = intList.get(0);
+                edge2 = intList.get(1);
+
+                //System.out.println(edge1 + " and " + edge2);
+
+                if (graphNum == 1) {
+                    graph1Edges.add(edge1);
+                    graph1Edges.add(edge2);
+                }
+                else if (graphNum == 2) {
+                    graph2Edges.add(edge1);
+                    graph2Edges.add(edge2);
+                }
+                else if (graphNum == 3) {
+                    graph3Edges.add(edge1);
+                    graph3Edges.add(edge2);
+                }
+                else if (graphNum == 4) {
+                    graph4Edges.add(edge1);
+                    graph4Edges.add(edge2);
+                }
+                else if (graphNum == 5) {
+                    graph5Edges.add(edge1);
+                    graph5Edges.add(edge2);
+                }//else if
+
+
+                //need to check that the list of edges for the graph isn't empty
+                if (graphNum == 1 && !(graph1Edges.isEmpty())) {
+                    //create the graphs 
+                    graphMatrix = new GraphMatrix(graph1Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph1Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph1Verticies.size() + 1);
+
+                    while (!(graph1Edges.isEmpty())) {
+                        //add the edges to the graphs
+                        System.out.println("adding edges " + graph1Edges.get(0) + " - " + graph1Edges.get(1));
+                        graphMatrix.addEdge(graph1Edges.get(0), graph1Edges.get(1));
+                        //commented out because causing errors
+                        //graphLinkedObjects.addEdge(graph1Edges.get(0), graph1Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph1Edges.get(0), graph1Edges.get(1));
+
+                        //remove the two edges that were just added each time until all edges have been added 
+                        graph1Edges.remove(0);
+                        graph1Edges.remove(0);
+                    }//while
+
+                    System.out.println("Graph Matrix:");
+                    graphMatrix.printGraphMatrix();
+                    //Needed to do separately in order to print out correctly
+                    //Only included for the first graph because the output would be extremely long
+                    
+                    for (int y = 0; y < graph1Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph1Verticies.get(y));
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    System.out.println();
+                    graphLinkedObjects.reset();
+                    for (int z = 0; z < graph1Verticies.size(); z++) {
+                        Vertex v = new Vertex(graph1Verticies.get(z));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                    }
+                    System.out.println();
+                    
+
+                }//if
+                else if (graphNum == 2 && !(graph2Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph2Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph2Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph2Verticies.size() + 1);
+
+                    while(!(graph2Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph2Edges.get(0), graph2Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph2Edges.get(0), graph2Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph2Edges.get(0), graph2Edges.get(1));
+
+                        graph2Edges.remove(0);
+                        graph2Edges.remove(0);
+                    }//while
+
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph2Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph2Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
+                }//else if
+
+                else if (graphNum == 3 && !(graph3Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph3Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph3Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph3Verticies.size() + 1);
+
+                    while(!(graph3Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph3Edges.get(0), graph3Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph3Edges.get(0), graph3Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph3Edges.get(0), graph3Edges.get(1));
+
+                        graph3Edges.remove(0);
+                        graph3Edges.remove(0);
+                    }//while
+
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph3Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph3Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
+
+                }//else if
+
+                else if (graphNum == 4 && !(graph4Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph4Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph4Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph4Verticies.size() + 1);
+
+                    while(!(graph4Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph4Edges.get(0), graph4Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph4Edges.get(0), graph4Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph4Edges.get(0), graph4Edges.get(1));
+
+                        graph4Edges.remove(0);
+                        graph4Edges.remove(0);
+                    }//while
+
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph4Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph4Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
+                }//else if
+
+                else if (graphNum == 5 && !(graph5Edges.isEmpty())) {
+                    graphMatrix = new GraphMatrix(graph5Verticies.size() + 1);
+                    graphLinkedObjects = new GraphLinkedObjects(graph5Verticies.size() + 1);
+                    graphAdjacencyList = new GraphAdjacencyList(graph5Verticies.size() + 1);
+
+                    while(!(graph5Edges.isEmpty())) {
+                        graphMatrix.addEdge(graph5Edges.get(0), graph5Edges.get(1));
+                        //graphLinkedObjects.addEdge(graph5Edges.get(0), graph5Edges.get(1));
+                        //graphAdjacencyList.addEdge(graph5Edges.get(0), graph5Edges.get(1));
+
+                        graph5Edges.remove(0);
+                        graph5Edges.remove(0);
+                    }//while
+
+                    //System.out.println("Graph Matrix:");
+                    //graphMatrix.printGraphMatrix();
+                    /*
+                    for (int y = 0; y < graph5Verticies.size(); y++) {
+                        Vertex v = new Vertex(graph5Verticies.get(y));
+                        graphLinkedObjects.depthFirstTraversal(v);
+                        graphLinkedObjects.breadthFirstTraversal(v);
+                    }
+                    */
+                }//else if
+
+
+                
+            }   
+        }//for
+
+              
+
+
+    }
+    public static boolean isNumber(String str) {
+        if (str == null || str.length() == 0) {
+            return false;
+        }
+        for (char c: str.toCharArray()) {
+            if (!(Character.isDigit(c))) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+\end{lstlisting}
+
+\noindent Here is my main method. First a binary search tree is created and populated with all 666 magic items. Then, the random 42 magic items were searched for in the binary search tree. As for the graphs, parsing the file took longer than expected in order to properly read each line. Vertices and edges were added into array lists which was necessary for the total number of vertices, along with using the lists to add the proper edges in the graph. This is where I failed to correctly implementing adding to each graph. Blocks of code that are commented out either resulted in errors, or would make the output way too long like printing the graphMatrix after every pass through. I plan to continue to work on this in order to properly and fully understand the nature of these graphs. 
+
+\end{document}
