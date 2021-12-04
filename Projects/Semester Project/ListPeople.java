@@ -32,5 +32,9 @@ public class ListPeople {
     public int size() {
         return listPeople.size();
     }
+
+    public List<Person> getList() {
+        return listPeople;
+    }
     
 }
