@@ -1,10 +1,11 @@
 {
     "java.project.sourcePaths": [
         "Projects/Semester Project",
+        "Projects",
         "Assignments/Assignment 4",
         "Assignments/Assignment 3",
         "Assignments/Assignment 2",
         "Assignments/Assignment 1",
-        "Projects"
+        "Assignments/Assignment 5"
     ]
 }
