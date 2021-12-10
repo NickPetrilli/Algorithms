@@ -7,7 +7,10 @@ public class DynamicProgramming {
     public static int numEdges = 0;
     public static void main(String[] args) {
 
-    readAndParseGraphFile();
+        readAndParseGraphFile();
+
+
+
 
     }
     public static void readAndParseGraphFile() {
@@ -17,6 +20,7 @@ public class DynamicProgramming {
 
         try {
             Scanner fileScan = new Scanner(myFile);
+
         //Populates the array with the lines from text file
         while (fileScan.hasNext()) {
             String line = fileScan.nextLine();
@@ -43,11 +47,13 @@ public class DynamicProgramming {
                 }//else if
                 //empty line means the graph is finished adding its verticies and edges
                 else if (line.isEmpty()) {
-                    System.out.println("Blankline");
+                    //System.out.println("Blankline");
                     int verticies = numVerticies;
                     int edges = numEdges / 3; //divide by three because the weights were in the same line and accounted for
 
                     System.out.println("Number of verticies in graph is: " + verticies + " and edges " + edges);
+                    DirectedGraph graph = new DirectedGraph(verticies, edges);
+                    graph.bellmanFord(graph, 0);
                 }//else if
             }//for
             
