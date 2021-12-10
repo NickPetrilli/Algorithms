@@ -7,10 +7,9 @@ public class DynamicProgramming {
     public static int numEdges = 0;
     public static void main(String[] args) {
 
-        readAndParseGraphFile();
+        //readAndParseGraphFile();
 
-
-
+        readAndParseSpiceFile();
 
     }
     public static void readAndParseGraphFile() {
@@ -53,7 +52,7 @@ public class DynamicProgramming {
 
                     System.out.println("Number of verticies in graph is: " + verticies + " and edges " + edges);
                     DirectedGraph graph = new DirectedGraph(verticies, edges);
-                    graph.bellmanFord(graph, 0);
+                    //graph.bellmanFord(graph, 0);
                 }//else if
             }//for
             
@@ -76,6 +75,64 @@ public class DynamicProgramming {
             }
         }
         return true;
+    }
+
+    public static void readAndParseSpiceFile() {
+
+        File myFile = new File("spice.txt");
+
+        List<KnapsackItem> items = new ArrayList<>();
+        Knapsack knapsack = new Knapsack(items, 0);
+
+        try {
+            Scanner fileScan = new Scanner(myFile);
+
+        //Populates the array with the lines from text file
+        while (fileScan.hasNext()) {
+            String line = fileScan.nextLine();
+            
+            String spiceName = "";
+            double totalPrice = 0;
+            int quantity = 0;
+            int knapsackCapacity = 0;
+
+            if (!line.isEmpty() && !line.contains("--")) {
+                String[] words = line.split(";");
+                for (int i = 0; i < words.length; i++) {
+                    //each line is split by semi-colon, so finding the last index of a space and adding one is anything after the equal sign
+                    //which is the information that we want
+                    String target = words[i].substring(words[i].lastIndexOf(" ") + 1);
+                    if (words[i].contains("spice name")) {
+                        spiceName = target;
+                        //System.out.println(spiceName);
+                    }//if
+                    else if (words[i].contains("total_price")) {
+                        totalPrice = Double.parseDouble(target);
+                        //System.out.println(totalPrice);
+                    }//else if
+                    else if (words[i].contains("qty")) {
+                        quantity = Integer.parseInt(target);
+                        //System.out.println(quantity);
+                    }//else if
+                    else if (words[i].contains("capacity")) {
+                        knapsackCapacity = Integer.parseInt(target);
+                        //System.out.println(knapsackCapacity);
+                    }
+                }//for
+
+                //now need to create a knapsack and add these items in
+
+                knapsack.addItem(spiceName, totalPrice, quantity);
+                System.out.println("Added the following item to the knapsack: " + "spiceName = " + spiceName + " totalPrice = " + totalPrice + " quantity = " + quantity);
+            }
+            
+        }
+        fileScan.close();            
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        }
     }
 
 }
