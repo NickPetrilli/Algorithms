@@ -7,8 +7,58 @@ public class DynamicProgramming {
     public static int numEdges = 0;
     public static void main(String[] args) {
 
-        //readAndParseGraphFile();
+        /*
+        int verticies = 5;
+        int edges = 10;
+        DirectedGraph graph = new DirectedGraph(verticies, edges);
 
+        graph.edgeArray[0].source = 1;
+        graph.edgeArray[0].destination = 2;
+        graph.edgeArray[0].weight = 5;
+
+        graph.edgeArray[1].source = 1;
+        graph.edgeArray[1].destination = 3;
+        graph.edgeArray[1].weight = 8;
+
+        graph.edgeArray[2].source = 1;
+        graph.edgeArray[2].destination = 4;
+        graph.edgeArray[2].weight = -4;
+
+        graph.edgeArray[3].source = 2;
+        graph.edgeArray[3].destination = 1;
+        graph.edgeArray[3].weight = -2;
+
+        graph.edgeArray[4].source = 3;
+        graph.edgeArray[4].destination = 2;
+        graph.edgeArray[4].weight = -3;
+
+        graph.edgeArray[5].source = 3;
+        graph.edgeArray[5].destination = 4;
+        graph.edgeArray[5].weight = 9;
+
+        graph.edgeArray[6].source = 4;
+        graph.edgeArray[6].destination = 2;
+        graph.edgeArray[6].weight = 7;
+
+        graph.edgeArray[7].source = 4;
+        graph.edgeArray[7].destination = 0;
+        graph.edgeArray[7].weight = 2;
+
+        graph.edgeArray[8].source = 0;
+        graph.edgeArray[8].destination = 1;
+        graph.edgeArray[8].weight = 6;
+
+        graph.edgeArray[9].source = 0;
+        graph.edgeArray[9].destination = 3;
+        graph.edgeArray[9].weight = 7;
+
+        graph.bellmanFord(graph, 0);
+
+        */
+
+
+        //readAndParseGraphFile();
+        System.out.println("\n");
         readAndParseSpiceFile();
 
     }
@@ -25,8 +75,6 @@ public class DynamicProgramming {
             String line = fileScan.nextLine();
             String[] words = line.split(" ");
 
-            ArrayList<Integer> edgeList = new ArrayList<Integer>();
-            ArrayList<Integer> vertexList = new ArrayList<Integer>();
             
             for (int i = 0; i < words.length; i++) {
                 if (line.contains("new") && i == 0) {
@@ -36,11 +84,9 @@ public class DynamicProgramming {
                 }//if
                 else if (line.contains("add") && isNumber(words[i])) {
                     if (line.contains("vertex")) {
-                        vertexList.add(Integer.parseInt(words[i]));
                         numVerticies++;
                     }//if
                     else if (line.contains("edge")) {
-                        edgeList.add(Integer.parseInt(words[i]));
                         numEdges++;
                     }//else if
                 }//else if
@@ -50,9 +96,9 @@ public class DynamicProgramming {
                     int verticies = numVerticies;
                     int edges = numEdges / 3; //divide by three because the weights were in the same line and accounted for
 
-                    System.out.println("Number of verticies in graph is: " + verticies + " and edges " + edges);
+                    System.out.println("Number of verticies in graph is  " + verticies + " and number of edges is " + edges);
                     DirectedGraph graph = new DirectedGraph(verticies, edges);
-                    //graph.bellmanFord(graph, 0);
+                    graph.bellmanFord(graph, 0);
                 }//else if
             }//for
             
@@ -120,10 +166,20 @@ public class DynamicProgramming {
                     }
                 }//for
 
-                //now need to create a knapsack and add these items in
+                
+                if (knapsackCapacity == 0) {
+                double unitPrice = totalPrice / quantity;
+                knapsack.addItem(spiceName, totalPrice, quantity, unitPrice);
+                System.out.println("Added the following item to the knapsack: " + "spiceName = " + spiceName + " totalPrice = " + 
+                totalPrice + " quantity = " + quantity + " unitPrice = " + unitPrice);
+                }//if
+                else {
+                    System.out.println("Running with capacity: " + knapsackCapacity);
+                    knapsack.sortKnapsack();
+                    Knapsack knapsackSolution = knapsack.solveHeist(knapsackCapacity);
+                    System.out.println("Knapsack of capacity " + knapsackCapacity + " is worth " + knapsackSolution.totalWorth() + " quatloos");
+                }//else
 
-                knapsack.addItem(spiceName, totalPrice, quantity);
-                System.out.println("Added the following item to the knapsack: " + "spiceName = " + spiceName + " totalPrice = " + totalPrice + " quantity = " + quantity);
             }
             
         }
