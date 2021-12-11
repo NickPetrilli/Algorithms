@@ -52,7 +52,7 @@ public class DirectedGraph {
             }
         }
         for (int i = 0; i < verticies; i++) {
-            System.out.println(i + "\t" + distance[i] + "\t | 0 ---> " + i + " Cost is " + distance[i]);
+            System.out.println("| 0 ---> " + i + " Cost is " + distance[i]);
         }
     }
 

@@ -7,57 +7,52 @@ public class DynamicProgramming {
     public static int numEdges = 0;
     public static void main(String[] args) {
 
-        /*
+        
+        //Bellman ford function seems correct because it works for this example when hardcoding but won't give correct output for other graphs
+        
         int verticies = 5;
-        int edges = 10;
+        int edges = 8;
         DirectedGraph graph = new DirectedGraph(verticies, edges);
 
-        graph.edgeArray[0].source = 1;
-        graph.edgeArray[0].destination = 2;
-        graph.edgeArray[0].weight = 5;
+        graph.edgeArray[0].source = 0;
+        graph.edgeArray[0].destination = 1;
+        graph.edgeArray[0].weight = -1;
 
-        graph.edgeArray[1].source = 1;
-        graph.edgeArray[1].destination = 3;
-        graph.edgeArray[1].weight = 8;
+        graph.edgeArray[1].source = 0;
+        graph.edgeArray[1].destination = 2;
+        graph.edgeArray[1].weight = 4;
 
         graph.edgeArray[2].source = 1;
-        graph.edgeArray[2].destination = 4;
-        graph.edgeArray[2].weight = -4;
+        graph.edgeArray[2].destination = 2;
+        graph.edgeArray[2].weight = 3;
 
-        graph.edgeArray[3].source = 2;
-        graph.edgeArray[3].destination = 1;
-        graph.edgeArray[3].weight = -2;
+        graph.edgeArray[3].source = 1;
+        graph.edgeArray[3].destination = 3;
+        graph.edgeArray[3].weight = 2;
 
-        graph.edgeArray[4].source = 3;
-        graph.edgeArray[4].destination = 2;
-        graph.edgeArray[4].weight = -3;
+        graph.edgeArray[4].source = 1;
+        graph.edgeArray[4].destination = 4;
+        graph.edgeArray[4].weight = 2;
 
         graph.edgeArray[5].source = 3;
-        graph.edgeArray[5].destination = 4;
-        graph.edgeArray[5].weight = 9;
+        graph.edgeArray[5].destination = 2;
+        graph.edgeArray[5].weight = 5;
 
-        graph.edgeArray[6].source = 4;
-        graph.edgeArray[6].destination = 2;
-        graph.edgeArray[6].weight = 7;
+        graph.edgeArray[6].source = 3;
+        graph.edgeArray[6].destination = 1;
+        graph.edgeArray[6].weight = 1;
 
         graph.edgeArray[7].source = 4;
-        graph.edgeArray[7].destination = 0;
-        graph.edgeArray[7].weight = 2;
+        graph.edgeArray[7].destination = 3;
+        graph.edgeArray[7].weight = -3;
 
-        graph.edgeArray[8].source = 0;
-        graph.edgeArray[8].destination = 1;
-        graph.edgeArray[8].weight = 6;
-
-        graph.edgeArray[9].source = 0;
-        graph.edgeArray[9].destination = 3;
-        graph.edgeArray[9].weight = 7;
 
         graph.bellmanFord(graph, 0);
 
-        */
+        
 
 
-        //readAndParseGraphFile();
+        readAndParseGraphFile();
         System.out.println("\n");
         readAndParseSpiceFile();
 
