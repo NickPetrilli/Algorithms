@@ -5,76 +5,36 @@ public class PooledTesting {
     public static int infectionRate = 2; // represents 2% infection rate
     public static int groupSize = 8;
     public static int numTests = 0;
-
-    public static int numPeople = 1000;
-    public static int numPeople2 = 10000;
-    public static int numPeople3 = 100000;
-    public static int numPeople4 = 1000000;
+    
 
     public static void main(String[] args) {
-        
-        //need to first create the list of 1000 people, use that to create the actual list of people
-        List<Person> peopleList = new ArrayList<>(numPeople);
-        ListPeople listPeople = new ListPeople(peopleList);
-        
-        listPeople.addPeople(numPeople);
 
-        System.out.println("\n--Running testing simulation for " + numPeople + " people--\n");
+        System.out.println("Welcome to my Pooled Testing Simulation! In this simulation the disease has an infection rate of 2% and individuals will be tested in groups of 8.");
+        System.out.println("Enter a population size that you want to test on. (1,000, 10,000, 100,000 or 1,000,0000)");
+        System.out.print("Population size: ");
+
+        Scanner input = new Scanner(System.in);
+        int populationSize = input.nextInt();
+
+        List<Person> peopleList = new ArrayList<>(populationSize);
+        ListPeople listPeople = new ListPeople(peopleList);
+
+        listPeople.addPeople(populationSize);
+        input.close();
+
+        System.out.println("\n--Running testing simulation for " + populationSize + " people--\n");
 
         infect(peopleList, listPeople);
 
         test(peopleList, listPeople);
 
-        System.out.println("\nNumber of tests needed for " + numPeople + " people is " + numTests + "\n");
+        System.out.println("\nNumber of tests needed for " + populationSize + " people is " + numTests + "\n");
 
-        resetTests();
-
-        List<Person> peopleList2 = new ArrayList<>(numPeople2);
-        ListPeople listPeople2 = new ListPeople(peopleList2);
-
-        listPeople2.addPeople(numPeople2);
-
-        System.out.println("\n--Running testing simulation for " + numPeople2 + " people--\n");
-
-        infect(peopleList2, listPeople2);
-
-        test(peopleList2, listPeople2);
-
-        System.out.println("\nNumber of tests needed for " + numPeople2 + " people is " + numTests + "\n");
-
-        resetTests();
-
-        List<Person> peopleList3 = new ArrayList<>(numPeople3);
-        ListPeople listPeople3 = new ListPeople(peopleList3);
-
-        listPeople3.addPeople(numPeople3);
-
-        System.out.println("\n--Running testing simulation for " + numPeople3 + " people--\n");
-
-        infect(peopleList3, listPeople3);
-
-        test(peopleList3, listPeople3);
-
-        System.out.println("\nNumber of tests needed for " + numPeople3 + " people is " + numTests + "\n");
-
-        resetTests();
-
-        List<Person> peopleList4 = new ArrayList<>(numPeople4);
-        ListPeople listPeople4 = new ListPeople(peopleList4);
-
-        listPeople4.addPeople(numPeople4);
-
-        System.out.println("\n--Running testing simulation for " + numPeople4 + " people--\n");
-
-        infect(peopleList4, listPeople4);
-
-        test(peopleList4, listPeople4);
-
-        System.out.println("\nNumber of tests needed for " + numPeople4 + " people is " + numTests + "\n");
+   
         
 
 
-      
+    
 
     }
     public static void infect(List<Person> peopleList, ListPeople listPeople) {
@@ -117,7 +77,6 @@ public class PooledTesting {
                     //need to split this list into two groups of 4 here
                     List<List<Person>> splitList = new ArrayList<>();
                     splitList = splitInTwo(list);
-
                     //iterate through new list of lists with the new groups of 4
                     //increment test
                     for (int i = 0; i < splitList.size(); i++) {
