@@ -1,2 +1,1 @@
-# cmpt435petrilli
-Algorithms
+# CMPT435 Algorithm Analysis and Design
